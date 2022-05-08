@@ -73,7 +73,7 @@ function LoadSave() {
   playerID = save.id.playerID;
   $.ajax({
     type: "GET",
-    url: "/french_article_urls.txt",
+    url: "french_article_urls.txt",
     dataType: "text",
     success: function (data) {
       hidingZero = save.prefs.hidingZero;
