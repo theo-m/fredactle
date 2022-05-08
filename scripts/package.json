@@ -1,0 +1,17 @@
+{
+  "name": "copy",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "theo",
+  "license": "MIT",
+  "scripts": {
+    "scrape": "node fr_fetcher.js"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "node-html-parser": "^5.3.3"
+  },
+  "devDependencies": {
+    "prettier": "^2.6.2"
+  }
+}
