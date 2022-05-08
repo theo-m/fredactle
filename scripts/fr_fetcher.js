@@ -10,9 +10,9 @@ const main = async () => {
   );
   const html = parse(res.data);
   const tables = html.querySelectorAll(".wikitable");
-  const catsUrls = [...tables[1].querySelectorAll("td[align=left] a")].map(
-    (a) => a.attrs["href"]
-  );
+  const catsUrls = [...tables[1].querySelectorAll("td[align=left] a")]
+    .map((a) => a.attrs["href"])
+    .filter((a) => !a.endsWith("Personnalit%C3%A9s"));
 
   const articles = (
     await Promise.all(
@@ -42,7 +42,10 @@ const main = async () => {
   }
 
   shuffleArray(articles);
-  fs.writeFileSync("french_articles.urls", articles.join("\n"));
+  fs.writeFileSync(
+    "../french_article_urls.txt",
+    articles.map((a) => decodeURI(a)).join("\n")
+  );
 };
 
 main();

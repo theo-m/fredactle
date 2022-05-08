@@ -73,7 +73,7 @@ function LoadSave() {
   playerID = save.id.playerID;
   $.ajax({
     type: "GET",
-    url: "/french_articles.urls",
+    url: "/french_article_urls.txt",
     dataType: "text",
     success: function (data) {
       hidingZero = save.prefs.hidingZero;
@@ -127,7 +127,7 @@ async function fetchData(retry, artStr) {
   if (retry) {
     var article = artStr;
   } else {
-    var article = artStr;
+    var article = encodeURI(artStr);
   }
   return await fetch(
     "https://fr.wikipedia.org/w/api.php?action=parse&format=json&page=" +
@@ -166,7 +166,7 @@ async function fetchData(retry, artStr) {
             "Notes_et_références"
           ).parentNode;
         } else {
-          var seeAlso = document.getElementById("Annexes").parentNode;
+          var seeAlso = document.getElementById("Références").parentNode;
         }
         var e = document.getElementsByClassName("mw-parser-output");
         alsoIndex = Array.prototype.indexOf.call(
