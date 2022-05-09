@@ -6,27 +6,11 @@ const wikiBase = "https://fr.m.wikipedia.org";
 
 const main = async () => {
   const res = await axios.get(
-    "https://fr.m.wikipedia.org/wiki/Wikip%C3%A9dia:Articles_vitaux/Niveau_4"
+    "https://fr.m.wikipedia.org/wiki/Wikip%C3%A9dia:Articles_vitaux"
   );
   const html = parse(res.data);
-  const tables = html.querySelectorAll(".wikitable");
-  const catsUrls = [...tables[1].querySelectorAll("td[align=left] a")]
-    .map((a) => a.attrs["href"])
-    .filter((a) => !a.endsWith("Personnalit%C3%A9s"));
-
-  const articles = (
-    await Promise.all(
-      catsUrls.map((url) => {
-        return axios.get(`${wikiBase}${url}`).then((res) => {
-          console.log("proc", url);
-          const cat = parse(res.data);
-          const found = [...cat.querySelectorAll("li > a[title]")];
-          return found.map((f) => f.attrs["href"]);
-        });
-      })
-    )
-  )
-    .flat()
+  const urls = [...html.querySelectorAll("li a")]
+    .map((a) => a.attrs["href"].replace("https://fr.m.wikipedia.org", ""))
     .filter(
       (a) =>
         a.startsWith("/wiki/") &&
@@ -41,10 +25,10 @@ const main = async () => {
     }
   }
 
-  shuffleArray(articles);
+  shuffleArray(urls);
   fs.writeFileSync(
     "../french_article_urls.txt",
-    articles.map((a) => decodeURI(a)).join("\n")
+    urls.map((a) => decodeURI(a)).join("\n")
   );
 };
 
